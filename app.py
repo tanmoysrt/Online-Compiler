@@ -5,6 +5,7 @@ from flask import request
 from flask import jsonify
 from flask_cors import CORS, cross_origin
 
+
 app = Flask(__name__)
 cors = CORS(app)
 
@@ -36,4 +37,4 @@ def build_and_run():
 
 if __name__ == '__main__':
     # eu.load_image()
-    app.run(debug=False,use_reloader=False)
+    app.run(debug=False,use_reloader=True)

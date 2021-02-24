@@ -23,10 +23,33 @@
         #input{
             width: 100vw;
         }
+        .loader{
+            text-align: center;
+            top: 0!important;
+            bottom: 0!important;
+            right: 0!important;
+            left: 0!important;
+            position: fixed;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,.75);
+            margin: auto;
+        }
+        .hide{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
     </style>
 
 </head>
 <body>
+
+    <div class="loader hide">
+        <img src="/static/spinner.gif"/>
+    </div>    
     <h3>Select preferred option : </h3>
     <select id="choice" onchange="setAceMode()">
         <option value="c_gcc">GCC C</option>
@@ -116,14 +139,22 @@ class tmp {
                 "code" : $("#codes").val(),
                 "input" : $("#input").val()
             }
+            $(".loader").addClass("show");
+            $(".loader").removeClass("hide");
             console.log(data);
             $.ajax({
-            url: 'http://127.0.0.1:5000/build_and_run',
+            url: 'build_and_run',
             type: 'post',
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
                 $("#output").val(data.run) ;
+                $(".loader").addClass("hide");
+                $(".loader").removeClass("show");
+            },
+            error:function(){
+                $(".loader").addClass("show");
+                $(".loader").removeClass("hide");
             },
             data: JSON.stringify(data)
         });

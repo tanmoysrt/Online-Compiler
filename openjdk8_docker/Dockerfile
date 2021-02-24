@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:latest
 
 RUN apk update
 RUN apk fetch openjdk8

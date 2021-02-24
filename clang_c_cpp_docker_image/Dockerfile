@@ -1,5 +1,5 @@
 # clang_c_cpp_docker_image
-FROM alpine:3.7
+FROM alpine:latest
 
 RUN apk update
 RUN apk add  clang
