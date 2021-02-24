@@ -1,6 +1,6 @@
 import executor_utils as eu
 import json
-from flask import Flask
+from flask import Flask,render_template
 from flask import request
 from flask import jsonify
 from flask_cors import CORS, cross_origin
@@ -8,6 +8,9 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 
+@app.route('/')
+def home():
+    return render_template("index.html")
 @app.route('/build_and_run', methods=['POST'])
 @cross_origin()
 def build_and_run():
