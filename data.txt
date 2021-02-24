@@ -1,0 +1,1 @@
+python_docker_image_v1   latest    2d55ad773f57   About a minute ago   58.8MB

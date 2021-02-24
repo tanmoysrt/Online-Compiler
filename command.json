@@ -1,0 +1,38 @@
+{
+    "python3":{
+        "image_id" : "python_docker_image_v1",
+        "source_filename" : "tmp.py",
+        "build_command" : "/bin/sh -c \"python tmp.py\"",
+        "execute_command" : "/bin/sh -c \"python tmp.py < input\""
+    },
+    "c_gcc":{
+        "image_id" : "gcc_g_plus_plus_docker_image_v3",
+        "source_filename" : "tmp.c",
+        "build_command" : "/bin/sh -c \"gcc tmp.c -o tmp -lm\"",
+        "execute_command" : "/bin/sh -c \"./tmp < input\""
+    },
+    "cpp_g_plus_plus":{
+        "image_id" : "gcc_g_plus_plus_docker_image_v3",
+        "source_filename" : "tmp.cpp",
+        "build_command" : "/bin/sh -c \"g++ tmp.cpp -o tmp\"",
+        "execute_command" : "/bin/sh -c \"./tmp < input\""
+    },
+    "c_clang" : {
+        "image_id" : "clang_c_cpp_docker_image_v1",
+        "source_filename" : "tmp.c",
+        "build_command" : "/bin/sh -c \"clang tmp.c -o tmp -lm\"",
+        "execute_command" : "/bin/sh -c \"./tmp < input\""
+    },
+    "cpp_clang" : {
+        "image_id" : "clang_c_cpp_docker_image_v1",
+        "source_filename" : "tmp.cpp",
+        "build_command" : "/bin/sh -c \"clang++ tmp.cpp -o tmp -lm\"",
+        "execute_command" : "/bin/sh -c \"./tmp < input\""
+    },
+    "java8":{
+        "image_id" : "openjdk8_docker_image_v1",
+        "source_filename" : "tmp.java",
+        "build_command" : "/bin/sh -c \"javac tmp.java\"",
+        "execute_command" : "/bin/sh -c \"java tmp < input\""
+    }
+}

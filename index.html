@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online compiler</title>
+
+    <style type="text/css" media="screen">
+        body{
+            margin:0;
+            padding: 10px;
+            width: 100vw;
+        }
+        #codetocom { 
+            position: relative;
+            width: 100vw;
+            height: 500px;
+        }
+        #output{
+            width: 100vw;
+        }
+        #input{
+            width: 100vw;
+        }
+    </style>
+
+</head>
+<body>
+    <h3>Select preferred option : </h3>
+    <select id="choice" onchange="setAceMode()">
+        <option value="c_gcc">GCC C</option>
+        <option value="cpp_g_plus_plus">G++ C++</option>
+        <option value="c_clang">Clang C</option>
+        <option value="cpp_clang">Clang++ C++</option>
+        <option value="python">Python 3.6</option>
+        <option value="java8">Java OpenJDK8</option>
+    </select>
+    <h3>Write your code here </h3>
+    <textarea name="codes" id="codes" ></textarea>
+    <div id="codetocom" style="margin-bottom: 20px;"></div><br>
+    <h4>Input : </h4>
+    <textarea id="input" style="margin-bottom: 20px;" rows="10" cols="100" ></textarea><br>
+    <button onclick="getAnswer()" style="float: right;width: 200px;height: 40px;font-size: 18px;" type="button"><b>Run Code</b></button><br>
+    <h4>Output : </h4>
+    <textarea style="margin-top: 20px;" id="output" rows="10" cols="100" ></textarea>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!-- <script charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous"></script> -->
+    <script src="./src/ace.js"></script>
+    <script src="./src/ext-language_tools.js"></script>
+    <script>
+        var editor = ace.edit("codetocom");
+        var textarea = $('textarea[name="codes"]').hide();
+        editor.getSession().on('change', function(){
+            textarea.val(editor.getSession().getValue());
+        });
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/c_cpp");
+        editor.setOptions({
+            fontSize: "18pt",
+            enableBasicAutocompletion : true,
+            enableLiveAutocompletion : true
+            });
+        setAceMode();
+        function setAceMode(){
+            switch($("#choice").val()){
+                case "c_gcc":
+                case "c_clang":
+                    editor.getSession().setValue(
+`#include <stdio.h>
+
+// !! WARNING Don't use void for main() function
+int main() {
+
+   // Write Your Code Here
+   printf("Hello, World!");
+   return 0;
+}`
+                    )
+                    editor.getSession().setMode("ace/mode/c_cpp");
+                    break;
+                case "cpp_g_plus_plus":
+                case "cpp_clang":
+                    editor.getSession().setValue(
+`#include <iostream>
+
+int main() {
+    std::cout << "Hello World!";
+    return 0;
+}`
+                    )                    
+                    editor.getSession().setMode("ace/mode/c_cpp");
+                    break;
+                case "python":
+                    editor.getSession().setValue("print(\"HI\")")
+                    editor.getSession().setMode("ace/mode/python");
+                    break;
+                case "java8":
+                    editor.getSession().setValue(
+`// !! WARNING !! Don't Change the class name 
+
+class tmp {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!"); 
+    }
+}`
+                    )
+                    editor.getSession().setMode("ace/mode/java");
+            }
+        }
+
+        function getAnswer(){
+            
+            const data = {
+                "lang": $("#choice").val(),
+                "code" : $("#codes").val(),
+                "input" : $("#input").val()
+            }
+            console.log(data);
+            $.ajax({
+            url: 'http://127.0.0.1:5000/build_and_run',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $("#output").val(data.run) ;
+            },
+            data: JSON.stringify(data)
+        });
+        }
+    </script>    
+</body>
+</html>
